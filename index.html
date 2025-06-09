@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Reliability Checklist</title>
+    <style>
+        /* === CSS Variables from your shared.css === */
+        :root {
+          /* === Color Palette === */
+          --bg-body: #0a1124;
+          --bg-card: #111C35;
+          --bg-light: #1B2545;
+          --text-light: #C3CFDC;
+          --text-dark: #333;
+          --text-muted: #6c757d;
+          --highlight: #336DDE;
+          --primary: #F5F5F5;
+          --primary-hover: #4754D4;
+          --accent: #A960EE;
+          --border-color: #3A4B7C;
+
+          /* === Radius and Font Sizes === */
+          --radius: 8px;
+          --radius-lg: 8px;
+          --font-base: 16px;
+          --font-sm: 14px;
+          --font-xs: 13px;
+          --max-width: 1080px;
+
+          /* === Card Gradient Colors === */
+          --blue-gradient-start: #0F2A5C;
+          --blue-gradient-end: #12264C;
+          --blue-border-highlight: #489DF5;
+
+          --red-gradient-start: #35212F;
+          --red-gradient-end: #332833;
+          --red-border-highlight: #FB6266;
+
+          --green-gradient-start: #113341;
+          --green-gradient-end: #122846;
+          --green-border-highlight: #78EDA7;
+
+          --purple-gradient-start: #262362;
+          --purple-gradient-end: #142342;
+          --purple-border-highlight: #B579F6;
+
+          /* === Button Styling === */
+          --button-gradient: linear-gradient(90deg, #5865F2, #A960EE);
+          --button-gradient-hover: linear-gradient(90deg, #4754D4, #954ED1);
+          --button-border: #7D6EFF;
+          --button-radius: var(--radius);
+          --button-padding: 0.6rem 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+            padding: 1.5rem;
+            line-height: 1.6;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Dark theme styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--bg-body);
+                color: var(--text-light);
+            }
+        }
+
+        .container {
+            max-width: 64rem;
+            margin: 0 auto;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .container {
+                background: var(--bg-card);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+                border: 1px solid var(--border-color);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .header p {
+            color: #6b7280;
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .header h1 {
+                color: var(--primary);
+            }
+
+            .header p {
+                color: var(--text-light);
+            }
+        }
+
+        .section {
+            border: 1px solid #e5e7eb;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            background-color: #f9fafb;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Section gradient backgrounds for dark theme */
+        .section-internet {
+            background: #f9fafb;
+        }
+
+        .section-wifi {
+            background: #f9fafb;
+        }
+
+        .section-office {
+            background: #f9fafb;
+        }
+
+        .section-equipment {
+            background: #f9fafb;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .section {
+                border-color: var(--border-color);
+            }
+
+            .section-internet {
+                background: linear-gradient(135deg, var(--blue-gradient-start), var(--blue-gradient-end));
+                border-color: var(--blue-border-highlight);
+            }
+
+            .section-wifi {
+                background: linear-gradient(135deg, var(--green-gradient-start), var(--green-gradient-end));
+                border-color: var(--green-border-highlight);
+            }
+
+            .section-office {
+                background: linear-gradient(135deg, var(--purple-gradient-start), var(--purple-gradient-end));
+                border-color: var(--purple-border-highlight);
+            }
+
+            .section-equipment {
+                background: linear-gradient(135deg, var(--red-gradient-start), var(--red-gradient-end));
+                border-color: var(--red-border-highlight);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .section-title {
+                color: var(--highlight);
+            }
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .checkbox {
+                border-color: var(--border-color);
+            }
+
+            .checkbox:hover {
+                border-color: var(--accent);
+            }
+        }
+
+        .checkbox.checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .checkbox:hover {
+            border-color: #9ca3af;
+        }
+
+        .item-text {
+            font-size: 0.875rem;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .item-text.checked {
+            color: #9ca3af;
+            text-decoration: line-through;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .item-text {
+                color: var(--text-light);
+            }
+
+            .item-text.checked {
+                color: var(--text-muted);
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+            transition: border-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .button-group {
+                border-top-color: var(--border-color);
+            }
+        }
+
+        .button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--button-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.875rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .button-calculate-score {
+            background: var(--button-gradient);
+            color: white;
+            border: 1px solid var(--button-border);
+        }
+
+        .button-calculate-score:hover {
+            background: var(--button-gradient-hover);
+        }
+
+        .button-downtime-calculator {
+            background-color: #16a34a;
+            color: white;
+        }
+
+        .button-downtime-calculator:hover {
+            background-color: #15803d;
+        }
+
+        .button-reset-score {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .button-reset-score:hover {
+            background-color: #4b5563;
+        }
+
+        @media (max-width: 640px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button {
+                flex: none;
+            }
+        }
+
+        .tip {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #dbeafe;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .tip p {
+            font-size: 0.875rem;
+            color: #1e40af;
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tip {
+                background-color: var(--bg-light);
+                border: 1px solid var(--border-color);
+            }
+
+            .tip p {
+                color: var(--text-light);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal {
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            max-width: 42rem;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-content {
+                background: var(--bg-card);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--border-color);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .modal-icon {
+            width: 4rem;
+            height: 4rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            transition: color 0.3s ease;
+        }
+
+        .modal-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-title {
+                color: var(--primary);
+            }
+
+            .modal-subtitle {
+                color: var(--text-light);
+            }
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #9ca3af;
+            padding: 0.25rem;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #6b7280;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .close-button {
+                color: var(--text-muted);
+            }
+
+            .close-button:hover {
+                color: var(--text-light);
+            }
+        }
+
+        .score-display {
+            background-color: #f9fafb;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .score-display {
+                background-color: var(--bg-light);
+                border: 1px solid var(--border-color);
+            }
+        }
+
+        .score-percentage {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-risk {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .score-details {
+            font-size: 0.875rem;
+            color: #6b7280;
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .score-details {
+                color: var(--text-light);
+            }
+        }
+
+        .modal-section {
+            margin: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .modal-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .modal-section p {
+            color: #374151;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-section h3 {
+                color: var(--highlight);
+            }
+
+            .modal-section p {
+                color: var(--text-light);
+            }
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+            transition: border-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-buttons {
+                border-top-color: var(--border-color);
+            }
+        }
+
+        .modal-buttons .button {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        @media (max-width: 640px) {
+            .modal-buttons {
+                flex-direction: column;
+            }
+
+            .modal-buttons .button {
+                flex: none;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Network Reliability Checklist</h1>
+            <p>Ensure your business network is resilient and reliable</p>
+        </div>
+
+        <div class="section section-internet">
+            <div class="section-header">
+                <div class="section-icon">🌐</div>
+                <h2 class="section-title">Internet Uptime</h2>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We have two internet providers - if one fails, the other keeps us online.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">Our system switches automatically when the main internet goes out.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We don't rely on a cellphone hotspot to keep the business online.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We've tested our backup internet in the last 3 months.</div>
+            </div>
+        </div>
+
+        <div class="section section-wifi">
+            <div class="section-header">
+                <div class="section-icon">📶</div>
+                <h2 class="section-title">Wi-Fi & Office Coverage</h2>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We use business-grade Wi-Fi gear, not the one from the cable company.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We have multiple Wi-Fi access points to avoid single-point failure.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">Our guest Wi-Fi can't access business systems and files.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">Our Wi-Fi name (SSID) is protected with a strong password, not from ISP.</div>
+            </div>
+        </div>
+
+        <div class="section section-office">
+            <div class="section-header">
+                <div class="section-icon">🏢</div>
+                <h2 class="section-title">Inside the Office Network</h2>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">Critical devices (POS, front desk, servers) are wired directly, not through random hubs.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We use a business-class router, not the ISP's default one.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We have a backup router/switch/Wi-Fi ready to go if the main one fails.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">All our network gear are under vendor contract for support and updates.</div>
+            </div>
+        </div>
+
+        <div class="section section-equipment">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2 class="section-title">Equipment & Readiness</h2>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">All network gear is from reliable business brands, not the cheap one from Amazon or Walmart.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We've replaced outdated gear in the last 3 years.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">Key devices are on battery backup or we know their uptime during outages.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleItem(this)">
+                <div class="checkbox"></div>
+                <div class="item-text">We keep a spare router, switch, or Wi-Fi unit on-site or nearby.</div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="button button-calculate-score" onclick="calculateScore()">
+                📊 Calculate Score
+            </button>
+            <button class="button button-downtime-calculator" onclick="goToDowntimeCalculator()">
+                💰 Go to Downtime Cost Calculator
+            </button>
+            <button class="button button-reset-score" onclick="resetChecklist()">
+                🔄 Reset
+            </button>
+        </div>
+
+        <div class="tip">
+            <p><strong>Tip:</strong> A well-prepared network infrastructure can prevent costly downtime. Aim for 90%+ completion to ensure maximum reliability.</p>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <div class="modal-icon" id="modalIcon">⚠️</div>
+                    <div>
+                        <h2 class="modal-title" id="modalTitle">Assessment Results</h2>
+                        <p class="modal-subtitle">Network Reliability Assessment</p>
+                    </div>
+                </div>
+                <button class="close-button" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="score-display">
+                <div class="score-percentage" id="scorePercentage">0%</div>
+                <div class="score-risk" id="scoreRisk">CALCULATING</div>
+                <div class="score-details" id="scoreDetails">0 of 16 items completed</div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Assessment</h3>
+                <p id="assessmentMessage">Calculating your network reliability...</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Recommendations</h3>
+                <p id="recommendationMessage">Please wait while we analyze your results...</p>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="button button-downtime-calculator" onclick="goToDowntimeCalculator()">
+                    💰 Calculate Downtime Cost
+                </button>
+                <button class="button button-reset-score" onclick="closeModal()">
+                    Continue Assessment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleItem(element) {
+            const checkbox = element.querySelector('.checkbox');
+            const text = element.querySelector('.item-text');
+
+            checkbox.classList.toggle('checked');
+            text.classList.toggle('checked');
+        }
+
+        function calculateScore() {
+            const checkedItems = document.querySelectorAll('.checkbox.checked');
+            const totalItems = document.querySelectorAll('.checkbox').length;
+            const checkedCount = checkedItems.length;
+            const percentage = Math.round((checkedCount / totalItems) * 100);
+
+            let icon, title, message, recommendation, color, riskValue;
+
+            if (checkedCount <= 5) {
+                icon = '🔴';
+                title = 'Critical Risk Level';
+                message = 'Your network infrastructure is dangerously vulnerable. Multiple single points of failure could bring your business to a complete standstill with little to no warning.';
+                recommendation = 'Immediate action required: Address backup internet, redundant equipment, and business-grade infrastructure before the next outage costs you customers and revenue.';
+                color = '#dc2626';
+                riskValue = 'CRITICAL';
+            } else if (checkedCount <= 11) {
+                icon = '🟠';
+                title = 'Moderate Risk Level';
+                message = 'Your network has some protection, but significant gaps remain. While you\'ve made progress, unaddressed vulnerabilities could still result in extended downtime during peak business hours.';
+                recommendation = 'Focus on completing backup systems, redundant connections, and equipment monitoring to move from reactive to proactive network management.';
+                color = '#ea580c';
+                riskValue = 'MODERATE';
+            } else {
+                icon = '🟢';
+                title = 'Low Risk Level';
+                message = 'Excellent work! Your network infrastructure demonstrates enterprise-level reliability planning. You\'ve built multiple layers of protection that will keep your business running even when individual components fail.';
+                recommendation = 'Maintain your current standards with regular testing and updates. Consider documenting your setup as a best practice template for future expansion.';
+                color = '#16a34a';
+                riskValue = 'LOW';
+            }
+
+            // Update modal content
+            document.getElementById('modalIcon').textContent = icon;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('scorePercentage').textContent = percentage + '%';
+            document.getElementById('scorePercentage').style.color = color;
+            document.getElementById('scoreRisk').textContent = riskValue + ' RISK';
+            document.getElementById('scoreRisk').style.color = color;
+            document.getElementById('scoreDetails').textContent = `${checkedCount} of ${totalItems} items completed`;
+            document.getElementById('assessmentMessage').textContent = message;
+            document.getElementById('recommendationMessage').textContent = recommendation;
+
+            // Show modal
+            document.getElementById('resultsModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('resultsModal').classList.remove('show');
+        }
+
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            const texts = document.querySelectorAll('.item-text');
+
+            checkboxes.forEach(checkbox => checkbox.classList.remove('checked'));
+            texts.forEach(text => text.classList.remove('checked'));
+
+            closeModal();
+        }
+
+        function goToDowntimeCalculator() {
+            alert('Redirecting to Downtime Cost Calculator...\n(This would typically navigate to another page)');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('resultsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
