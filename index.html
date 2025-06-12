@@ -6,7 +6,7 @@
     <title>Network Risk Assessment - Is Your Business Built to Stay Online?</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -32,7 +32,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: radial-gradient(circle, #0F3276 0%, #0F2143 100%);
             background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-primary);
@@ -416,13 +416,13 @@
         }
 
         @keyframes resultsSlideIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px) scale(0.95); 
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
             }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -522,40 +522,40 @@
             .container {
                 padding: 15px;
             }
-            
+
             .main-card {
                 padding: 24px;
                 border-radius: 20px;
             }
-            
+
             .category {
                 padding: 24px 20px;
             }
-            
+
             .category-header {
                 flex-direction: column;
                 text-align: center;
                 gap: 12px;
             }
-            
+
             .category-icon {
                 width: 56px;
                 height: 56px;
                 font-size: 24px;
             }
-            
+
             .question {
                 padding: 20px 16px;
             }
-            
+
             .option {
                 padding: 14px 16px;
             }
-            
+
             .total-score {
                 font-size: 3rem;
             }
-            
+
             .category-breakdown {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
@@ -566,11 +566,11 @@
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             .header p {
                 font-size: 1rem;
             }
-            
+
             .category-breakdown {
                 grid-template-columns: 1fr;
             }
@@ -924,9 +924,9 @@
                 <div class="total-score" id="totalScore">0</div>
                 <div class="score-label">out of 32 points</div>
                 <div class="risk-message" id="riskMessage"></div>
-                
+
                 <div class="category-breakdown" id="categoryBreakdown"></div>
-                
+
                 <div class="cta-section" id="ctaSection" style="display: none;">
                     <p><strong>Want to reduce your downtime risk?</strong><br>Let's walk through your checklist together.</p>
                     <a href="#" class="cta-button" onclick="alert('This would link to your Calendly booking page')">Book a $99 Review Call</a>
@@ -940,7 +940,7 @@
         let scores = [0, 0, 0, 0]; // Category scores
         let totalQuestions = 16;
         let answeredQuestions = 0;
-        
+
         // Category names for results
         const categoryNames = [
             'Internet Uptime',
@@ -959,7 +959,7 @@
 
             // Form submission
             document.getElementById('networkForm').addEventListener('submit', handleSubmit);
-            
+
             // Initial state
             updateProgress();
         }
@@ -968,29 +968,29 @@
         function handleAnswerChange(event) {
             const questionName = event.target.name;
             const value = parseInt(event.target.value);
-            
+
             // Determine which category this question belongs to
             const questionNumber = parseInt(questionName.substring(1));
             const categoryIndex = Math.floor((questionNumber - 1) / 4);
-            
+
             // Update visual state
             const question = event.target.closest('.question');
             question.classList.add('answered');
-            
+
             // Update category active state
             const category = document.getElementById(`category-${categoryIndex}`);
             category.classList.add('active');
-            
+
             // Update selected option styling
             const options = question.querySelectorAll('.option');
             options.forEach(option => option.classList.remove('selected'));
             event.target.closest('.option').classList.add('selected');
-            
+
             // Calculate scores
             calculateScores();
             updateProgress();
             updateCategoryScores();
-            
+
             // Enable submit button if all questions answered
             checkCompletion();
         }
@@ -999,7 +999,7 @@
         function calculateScores() {
             scores = [0, 0, 0, 0];
             answeredQuestions = 0;
-            
+
             for (let i = 1; i <= totalQuestions; i++) {
                 const radio = document.querySelector(`input[name="q${i}"]:checked`);
                 if (radio) {
@@ -1014,7 +1014,7 @@
         function updateProgress() {
             const percentage = (answeredQuestions / totalQuestions) * 100;
             document.getElementById('progressFill').style.width = percentage + '%';
-            
+
             if (percentage === 0) {
                 document.getElementById('progressText').textContent = 'Get started - 0% complete';
             } else if (percentage === 100) {
@@ -1054,20 +1054,20 @@
         // Show results section
         function showResults() {
             const totalScore = scores.reduce((a, b) => a + b, 0);
-            
+
             // Save results to storage
             const results = {
                 totalScore,
                 categoryScores: scores,
                 timestamp: new Date().toISOString()
             };
-            
+
             // Store in memory (not using browser storage per artifact requirements)
             window.networkAssessmentResults = results;
-            
+
             // Display results
             document.getElementById('totalScore').textContent = totalScore;
-            
+
             // Determine risk level and message
             let riskMessage, showCTA = false;
             if (totalScore >= 26) {
@@ -1079,18 +1079,18 @@
                 riskMessage = "❌ You're likely one glitch away from going offline. Your network needs immediate attention to prevent serious outages.";
                 showCTA = true;
             }
-            
+
             document.getElementById('riskMessage').textContent = riskMessage;
-            
+
             // Show CTA if needed
             if (showCTA) {
                 document.getElementById('ctaSection').style.display = 'block';
             }
-            
+
             // Create category breakdown
             const breakdown = document.getElementById('categoryBreakdown');
             breakdown.innerHTML = '';
-            
+
             categoryNames.forEach((name, index) => {
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category-result';
@@ -1100,14 +1100,14 @@
                 `;
                 breakdown.appendChild(categoryDiv);
             });
-            
+
             // Show results section
             document.getElementById('results').classList.add('show');
-            
+
             // Scroll to results
-            document.getElementById('results').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            document.getElementById('results').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
 
