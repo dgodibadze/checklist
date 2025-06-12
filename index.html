@@ -84,33 +84,20 @@
             line-height: 1.6;
         }
 
-        .main-card {
+        .sticky-progress {
+            position: sticky;
+            top: 0;
+            z-index: 100;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
         .progress-section {
-            margin-bottom: 40px;
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .progress-bar {
@@ -171,46 +158,57 @@
             font-weight: 600;
             font-size: 1rem;
             color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .category {
-            margin-bottom: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 32px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .progress-step {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .main-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
             position: relative;
             overflow: hidden;
+            min-height: 600px;
         }
 
-        .category::before {
+        .main-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        }
+
+        .category {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 32px 0;
+            position: relative;
         }
 
         .category.active {
-            border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(99, 102, 241, 0.05);
-            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
-        }
-
-        .category.active::before {
+            display: block;
+            opacity: 1;
             transform: translateX(0);
         }
 
         .category-header {
             display: flex;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
             gap: 16px;
         }
 
@@ -227,25 +225,21 @@
         }
 
         .category-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--text-primary);
             flex: 1;
         }
 
-        .category-score {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(6, 214, 160, 0.3);
+        .category-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 8px;
         }
 
         .question {
-            margin-bottom: 28px;
-            padding: 24px;
+            margin-bottom: 32px;
+            padding: 28px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -253,22 +247,7 @@
             position: relative;
         }
 
-        .question::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 0 2px 2px 0;
-            transition: all 0.3s ease;
-        }
 
-        .question.answered::before {
-            background: linear-gradient(135deg, var(--success), #059669);
-            box-shadow: 0 0 20px rgba(6, 214, 160, 0.4);
-        }
 
         .question.answered {
             border-color: rgba(6, 214, 160, 0.3);
@@ -277,22 +256,22 @@
 
         .question-text {
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--text-primary);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.4;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .option {
             display: flex;
             align-items: center;
-            padding: 16px 20px;
+            padding: 18px 24px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             cursor: pointer;
@@ -340,50 +319,64 @@
             font-weight: 500;
             color: var(--text-primary);
             line-height: 1.4;
+            font-size: 1rem;
         }
 
-        .submit-btn {
-            width: 100%;
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
-            padding: 20px 40px;
-            border-radius: 16px;
-            font-size: 1.2rem;
-            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 32px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+            min-width: 120px;
         }
 
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4);
         }
 
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
-        }
-
-        .submit-btn:disabled {
+        .nav-btn:disabled {
             background: rgba(255, 255, 255, 0.1);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+            opacity: 0.5;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, var(--success), #059669);
+            box-shadow: 0 8px 25px rgba(6, 214, 160, 0.3);
+        }
+
+        .complete-btn:hover {
+            box-shadow: 0 12px 35px rgba(6, 214, 160, 0.4);
         }
 
         .results {
@@ -528,10 +521,6 @@
                 border-radius: 20px;
             }
 
-            .category {
-                padding: 24px 20px;
-            }
-
             .category-header {
                 flex-direction: column;
                 text-align: center;
@@ -560,6 +549,25 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
             }
+
+            .navigation {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+
+            .sticky-progress {
+                padding: 15px;
+            }
+
+            .progress-text {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -578,6 +586,22 @@
     </style>
 </head>
 <body>
+    <!-- Sticky Progress Bar -->
+    <div class="sticky-progress">
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressText">Get started - 0% complete</span>
+                <span class="progress-step" id="progressStep">Step 1 of 4</span>
+            </div>
+            <div style="text-align: center; margin-top: 12px; font-size: 0.95rem; opacity: 0.9; font-weight: 500;">
+                This 2-minute checklist shows if your setup is truly failsafe — or just lucky.
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>Is your network built for business — or just lucky so far?</h1>
@@ -585,101 +609,103 @@
         </div>
 
         <div class="main-card">
-            <div class="progress-section">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text" id="progressText">Get started - 0% complete</div>
-            </div>
-
             <form id="networkForm">
                 <!-- Internet Uptime Category -->
-                <div class="category" id="category-0">
+                <div class="category active" id="category-0" data-category="0">
                     <div class="category-header">
                         <div class="category-icon">🌐</div>
-                        <div class="category-title">Internet Uptime</div>
-                        <div class="category-score" id="score-0">0/8</div>
+                        <div>
+                            <div class="category-title">Internet Uptime</div>
+                            <div class="category-subtitle">Let's check if your internet setup can keep the business online when something goes down.</div>
+                        </div>
                     </div>
 
                     <div class="question">
-                        <div class="question-text">Do we have backup internet?</div>
+                        <div class="question-text">Do you pay for more than one internet service each month, maybe from different companies?</div>
                         <div class="options">
                             <label class="option high">
                                 <input type="radio" name="q1" value="2">
-                                <span class="option-label">✅ Two providers</span>
+                                <span class="option-label">✅ Yes, two from different companies</span>
                             </label>
                             <label class="option medium">
                                 <input type="radio" name="q1" value="1">
-                                <span class="option-label">⚠️ Mobile hotspot</span>
+                                <span class="option-label">⚠️ Two, but from the same company</span>
                             </label>
                             <label class="option low">
                                 <input type="radio" name="q1" value="0">
-                                <span class="option-label">❌ None</span>
+                                <span class="option-label">❌ Just one</span>
                             </label>
                         </div>
                     </div>
 
                     <div class="question">
-                        <div class="question-text">Does failover work?</div>
+                        <div class="question-text">Does each of your internet service providers use different methods to connect to you (like cable vs fiber)?</div>
                         <div class="options">
                             <label class="option high">
                                 <input type="radio" name="q2" value="2">
-                                <span class="option-label">✅ Tested in last 3 months or triggered in real outage</span>
+                                <span class="option-label">✅ Yes, completely different types (e.g. fiber + wireless)</span>
                             </label>
                             <label class="option medium">
                                 <input type="radio" name="q2" value="1">
-                                <span class="option-label">⚠️ Don't know</span>
+                                <span class="option-label">⚠️ Yes, but same type (e.g. both cable)</span>
                             </label>
                             <label class="option low">
                                 <input type="radio" name="q2" value="0">
-                                <span class="option-label">❌ Not in place</span>
+                                <span class="option-label">❌ No, only one type (we only have 1 ISP - single point of failure)</span>
                             </label>
                         </div>
                     </div>
 
                     <div class="question">
-                        <div class="question-text">Is switchover automatic?</div>
+                        <div class="question-text">Are both internet connections active and ready to use right now?</div>
                         <div class="options">
                             <label class="option high">
                                 <input type="radio" name="q3" value="2">
-                                <span class="option-label">✅ Yes</span>
+                                <span class="option-label">✅ Yes, both are always connected and ready</span>
                             </label>
                             <label class="option medium">
                                 <input type="radio" name="q3" value="1">
-                                <span class="option-label">⚠️ Manual</span>
+                                <span class="option-label">⚠️ One is plugged in, the other needs to be turned on manually</span>
                             </label>
                             <label class="option low">
                                 <input type="radio" name="q3" value="0">
-                                <span class="option-label">❌ Not possible</span>
+                                <span class="option-label">❌ Only one is ever connected (we only have 1 ISP - no backup if it goes down)</span>
                             </label>
                         </div>
                     </div>
 
                     <div class="question">
-                        <div class="question-text">Have we confirmed this setup recently?</div>
+                        <div class="question-text">If one internet connection stops working, does your system switch to the other one automatically?</div>
                         <div class="options">
                             <label class="option high">
                                 <input type="radio" name="q4" value="2">
-                                <span class="option-label">✅ Yes, confirmed/tested</span>
+                                <span class="option-label">✅ Yes, it switches over by itself right away</span>
                             </label>
                             <label class="option medium">
                                 <input type="radio" name="q4" value="1">
-                                <span class="option-label">⚠️ It worked a year ago</span>
+                                <span class="option-label">⚠️ Someone has to do something manually to switch</span>
                             </label>
                             <label class="option low">
                                 <input type="radio" name="q4" value="0">
-                                <span class="option-label">❌ Never</span>
+                                <span class="option-label">❌ No backup available (we only have 1 ISP - business goes offline until fixed)</span>
                             </label>
                         </div>
+                    </div>
+
+                    <div class="navigation">
+                        <button type="button" class="nav-btn secondary" id="prevBtn" disabled>Previous</button>
+                        <button type="button" class="nav-btn" id="nextBtn" disabled>Next</button>
                     </div>
                 </div>
 
                 <!-- Wi-Fi & Office Coverage Category -->
-                <div class="category" id="category-1">
+                <div class="category" id="category-1" data-category="1">
                     <div class="category-header">
                         <div class="category-icon">📶</div>
-                        <div class="category-title">Wi-Fi & Office Coverage</div>
-                        <div class="category-score" id="score-1">0/8</div>
+                        <div>
+                            <div class="category-title">Wi-Fi & Office Coverage</div>
+                            <div class="category-subtitle">How reliable and secure is your wireless setup?</div>
+                        </div>
                     </div>
 
                     <div class="question">
@@ -753,14 +779,21 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="navigation">
+                        <button type="button" class="nav-btn secondary" id="prevBtn" disabled>Previous</button>
+                        <button type="button" class="nav-btn" id="nextBtn" disabled>Next</button>
+                    </div>
                 </div>
 
                 <!-- Inside the Office Network Category -->
-                <div class="category" id="category-2">
+                <div class="category" id="category-2" data-category="2">
                     <div class="category-header">
                         <div class="category-icon">🏢</div>
-                        <div class="category-title">Inside the Office Network</div>
-                        <div class="category-score" id="score-2">0/8</div>
+                        <div>
+                            <div class="category-title">Inside the Office Network</div>
+                            <div class="category-subtitle">Your internal network infrastructure and equipment</div>
+                        </div>
                     </div>
 
                     <div class="question">
@@ -834,14 +867,21 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="navigation">
+                        <button type="button" class="nav-btn secondary" id="prevBtn">Previous</button>
+                        <button type="button" class="nav-btn" id="nextBtn" disabled>Next</button>
+                    </div>
                 </div>
 
                 <!-- Equipment & Readiness Category -->
-                <div class="category" id="category-3">
+                <div class="category" id="category-3" data-category="3">
                     <div class="category-header">
                         <div class="category-icon">⚙️</div>
-                        <div class="category-title">Equipment & Readiness</div>
-                        <div class="category-score" id="score-3">0/8</div>
+                        <div>
+                            <div class="category-title">Equipment & Readiness</div>
+                            <div class="category-subtitle">Final check on your hardware and preparedness</div>
+                        </div>
                     </div>
 
                     <div class="question">
@@ -915,9 +955,12 @@
                             </label>
                         </div>
                     </div>
-                </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn" disabled>Complete Assessment</button>
+                    <div class="navigation">
+                        <button type="button" class="nav-btn secondary" id="prevBtn">Previous</button>
+                        <button type="button" class="nav-btn complete-btn" id="completeBtn" disabled>Complete Assessment</button>
+                    </div>
+                </div>
             </form>
 
             <div class="results" id="results">
@@ -937,9 +980,11 @@
 
     <script>
         // Application state
-        let scores = [0, 0, 0, 0]; // Category scores
-        let totalQuestions = 16;
-        let answeredQuestions = 0;
+        let currentStep = 0;
+        let totalSteps = 4;
+        let scores = [0, 0, 0, 0];
+        let categoryQuestionCounts = [4, 4, 4, 4]; // Questions per category
+        let categoryAnswered = [0, 0, 0, 0]; // Answered questions per category
 
         // Category names for results
         const categoryNames = [
@@ -949,6 +994,14 @@
             'Equipment & Readiness'
         ];
 
+        // Question mapping - which category each question belongs to
+        const questionCategories = {
+            'q1': 0, 'q2': 0, 'q3': 0, 'q4': 0,
+            'q5': 1, 'q6': 1, 'q7': 1, 'q8': 1,
+            'q9': 2, 'q10': 2, 'q11': 2, 'q12': 2,
+            'q13': 3, 'q14': 3, 'q15': 3, 'q16': 3
+        };
+
         // Initialize the application
         function init() {
             // Add event listeners to all radio buttons
@@ -957,29 +1010,31 @@
                 radio.addEventListener('change', handleAnswerChange);
             });
 
-            // Form submission
-            document.getElementById('networkForm').addEventListener('submit', handleSubmit);
+            // Add navigation event listeners
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'nextBtn' || e.target.classList.contains('nav-btn') && e.target.textContent === 'Next') {
+                    nextStep();
+                } else if (e.target.id === 'prevBtn' || e.target.classList.contains('nav-btn') && e.target.textContent === 'Previous') {
+                    prevStep();
+                } else if (e.target.id === 'completeBtn' || e.target.classList.contains('complete-btn')) {
+                    completeAssessment();
+                }
+            });
 
             // Initial state
             updateProgress();
+            updateNavigationButtons();
         }
 
         // Handle answer changes
         function handleAnswerChange(event) {
             const questionName = event.target.name;
             const value = parseInt(event.target.value);
-
-            // Determine which category this question belongs to
-            const questionNumber = parseInt(questionName.substring(1));
-            const categoryIndex = Math.floor((questionNumber - 1) / 4);
+            const categoryIndex = questionCategories[questionName];
 
             // Update visual state
             const question = event.target.closest('.question');
             question.classList.add('answered');
-
-            // Update category active state
-            const category = document.getElementById(`category-${categoryIndex}`);
-            category.classList.add('active');
 
             // Update selected option styling
             const options = question.querySelectorAll('.option');
@@ -989,64 +1044,122 @@
             // Calculate scores
             calculateScores();
             updateProgress();
-            updateCategoryScores();
-
-            // Enable submit button if all questions answered
-            checkCompletion();
+            updateNavigationButtons();
         }
 
-        // Calculate category scores
+        // Calculate category scores and answered questions
         function calculateScores() {
             scores = [0, 0, 0, 0];
-            answeredQuestions = 0;
+            categoryAnswered = [0, 0, 0, 0];
 
-            for (let i = 1; i <= totalQuestions; i++) {
-                const radio = document.querySelector(`input[name="q${i}"]:checked`);
+            // Count answers for each category
+            Object.keys(questionCategories).forEach(questionName => {
+                const radio = document.querySelector(`input[name="${questionName}"]:checked`);
+                const categoryIndex = questionCategories[questionName];
+
                 if (radio) {
-                    const categoryIndex = Math.floor((i - 1) / 4);
                     scores[categoryIndex] += parseInt(radio.value);
-                    answeredQuestions++;
+                    categoryAnswered[categoryIndex]++;
                 }
-            }
+            });
         }
 
         // Update progress bar and text
         function updateProgress() {
-            const percentage = (answeredQuestions / totalQuestions) * 100;
+            const totalAnswered = categoryAnswered.reduce((a, b) => a + b, 0);
+            const percentage = (totalAnswered / 16) * 100;
+
             document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent =
+                `${Math.round(percentage)}% complete - ${16 - totalAnswered} questions remaining`;
+            document.getElementById('progressStep').textContent =
+                `Step ${currentStep + 1} of ${totalSteps}`;
+        }
 
-            if (percentage === 0) {
-                document.getElementById('progressText').textContent = 'Get started - 0% complete';
-            } else if (percentage === 100) {
-                document.getElementById('progressText').textContent = 'All done! Click "Complete Assessment" to see your results';
+        // Update navigation buttons based on current state
+        function updateNavigationButtons() {
+            const currentCategory = document.querySelector(`#category-${currentStep}`);
+            const prevBtns = currentCategory.querySelectorAll('#prevBtn, .nav-btn.secondary');
+            const nextBtns = currentCategory.querySelectorAll('#nextBtn, .nav-btn:not(.secondary):not(.complete-btn)');
+            const completeBtns = currentCategory.querySelectorAll('#completeBtn, .complete-btn');
+
+            // Update Previous button
+            prevBtns.forEach(btn => {
+                btn.disabled = currentStep === 0;
+            });
+
+            // Update Next/Complete buttons
+            const currentCategoryAnswered = categoryAnswered[currentStep];
+            const currentCategoryQuestions = categoryQuestionCounts[currentStep];
+            const isCurrentCategoryComplete = currentCategoryAnswered === currentCategoryQuestions;
+
+            if (currentStep === totalSteps - 1) {
+                // Last step - show complete button
+                nextBtns.forEach(btn => btn.style.display = 'none');
+                completeBtns.forEach(btn => {
+                    btn.style.display = 'block';
+                    btn.disabled = !isCurrentCategoryComplete;
+                });
             } else {
-                document.getElementById('progressText').textContent = `${Math.round(percentage)}% complete - ${totalQuestions - answeredQuestions} questions remaining`;
+                // Not last step - show next button
+                nextBtns.forEach(btn => {
+                    btn.style.display = 'block';
+                    btn.disabled = !isCurrentCategoryComplete;
+                });
+                completeBtns.forEach(btn => btn.style.display = 'none');
             }
         }
 
-        // Update category score displays
-        function updateCategoryScores() {
-            for (let i = 0; i < 4; i++) {
-                document.getElementById(`score-${i}`).textContent = `${scores[i]}/8`;
+        // Navigate to next step
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                // Hide current category
+                document.getElementById(`category-${currentStep}`).classList.remove('active');
+
+                // Show next category
+                currentStep++;
+                setTimeout(() => {
+                    document.getElementById(`category-${currentStep}`).classList.add('active');
+                }, 100);
+
+                updateProgress();
+                updateNavigationButtons();
+
+                // Scroll to top of card
+                document.querySelector('.main-card').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         }
 
-        // Check if all questions are answered
-        function checkCompletion() {
-            const submitBtn = document.getElementById('submitBtn');
-            if (answeredQuestions === totalQuestions) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Complete Assessment';
-            } else {
-                submitBtn.disabled = true;
-                submitBtn.textContent = `Complete Assessment (${totalQuestions - answeredQuestions} questions remaining)`;
+        // Navigate to previous step
+        function prevStep() {
+            if (currentStep > 0) {
+                // Hide current category
+                document.getElementById(`category-${currentStep}`).classList.remove('active');
+
+                // Show previous category
+                currentStep--;
+                setTimeout(() => {
+                    document.getElementById(`category-${currentStep}`).classList.add('active');
+                }, 100);
+
+                updateProgress();
+                updateNavigationButtons();
+
+                // Scroll to top of card
+                document.querySelector('.main-card').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         }
 
-        // Handle form submission
-        function handleSubmit(event) {
-            event.preventDefault();
-            if (answeredQuestions === totalQuestions) {
+        // Complete the assessment
+        function completeAssessment() {
+            const totalAnswered = categoryAnswered.reduce((a, b) => a + b, 0);
+            if (totalAnswered === 16) {
                 showResults();
             }
         }
@@ -1055,14 +1168,15 @@
         function showResults() {
             const totalScore = scores.reduce((a, b) => a + b, 0);
 
-            // Save results to storage
+            // Hide all categories
+            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
+
+            // Store results in memory
             const results = {
                 totalScore,
                 categoryScores: scores,
                 timestamp: new Date().toISOString()
             };
-
-            // Store in memory (not using browser storage per artifact requirements)
             window.networkAssessmentResults = results;
 
             // Display results
@@ -1104,11 +1218,18 @@
             // Show results section
             document.getElementById('results').classList.add('show');
 
+            // Update progress to 100%
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('progressText').textContent = 'Assessment Complete!';
+            document.getElementById('progressStep').textContent = 'Results Ready';
+
             // Scroll to results
-            document.getElementById('results').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            setTimeout(() => {
+                document.getElementById('results').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300);
         }
 
         // Initialize when DOM is loaded
